@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Ivan Podorozhnyi](https://up.htmlacademy.ru/javascript/25/user/1124279).
-* Наставник: [Дмитрий Гуляев] (https://htmlacademy.ru/profile/dima).
+* Наставник: [Дмитрий Гуляев](https://htmlacademy.ru/profile/dima).
 
 ---
 
