@@ -20,11 +20,8 @@ function generateRandomFloat(a, b, digits = 1) {
 const formattingNumber = (arr) => {
   const arrayNumbers = [];
   for (let i = 0; i <= arr.length - 1; i++) {
-    if (arr[i] >= 10) {
-      arrayNumbers.push(arr[i]);
-    } else {
-      arrayNumbers.push(`0${arr[i]}`);
-    }
+    const element = (arr[i] >= 10) ? arr[i]:`0${arr[i]}`;
+    arrayNumbers.push(element);
   }
   return arrayNumbers;
 };
