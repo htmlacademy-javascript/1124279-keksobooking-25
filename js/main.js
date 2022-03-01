@@ -20,7 +20,7 @@ function generateRandomFloat(a, b, digits = 1) {
 const formattingNumber = (arr) => {
   const arrayNumbers = [];
   for (let i = 0; i <= arr.length - 1; i++) {
-    const element = (arr[i] >= 10) ? `${arr[i]}`:`0${arr[i]}`;
+    const element = (arr[i] >= 10) ? `${arr[i]}` : `0${arr[i]}`;
     arrayNumbers.push(element);
   }
   return arrayNumbers;
@@ -38,8 +38,7 @@ const createNotRepeatNumbers = (min, max) => {
   }
   return randomNumbers;
 };
-const formatNumbers = formattingNumber(createNotRepeatNumbers(1, 10));
-console.log(formatNumbers);
+
 
 const getRandomArray = (elements) => {
   const arr = [];
@@ -64,18 +63,23 @@ const TYPE_HOUSTING = ['palace', 'flat', 'house', 'bungalow', 'hotel'],
   PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 
 
+const formatNumbers = formattingNumber(createNotRepeatNumbers(1, 10));
 
 
-const similarAds = Array.from({length: 10}, (_value, index) => {
-  const locationLat = generateRandomFloat(35.65000, 35.70000, 5);
-  const locationLng = generateRandomFloat(139.70000, 139.80000, 5);
+const similarAds = Array.from({
+  length: 10
+}, (_value, index) => {
+  const location = {
+    lat: generateRandomFloat(35.65000, 35.70000, 5),
+    lng: generateRandomFloat(139.70000, 139.80000, 5),
+  }
   return {
     author: {
       avatar: `img/avatars/user${formatNumbers[index]}.png`,
     },
     offer: {
       title: `Предложения №${formatNumbers[index]}`,
-      address: `${locationLat}, ${locationLng}`,
+      address: `${location.lat}, ${location.lng}`,
       price: getRandomNumber(1, 10000),
       type: getRandomArrayElement(TYPE_HOUSTING),
       rooms: getRandomNumber(1, 3),
@@ -87,8 +91,8 @@ const similarAds = Array.from({length: 10}, (_value, index) => {
       photos: getRandomArray(PHOTOS),
     },
     location: {
-      lat: locationLat,
-      lng: locationLng,
+      lat: location.lat,
+      lng: location.lng,
     },
   };
 });
