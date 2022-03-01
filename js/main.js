@@ -20,7 +20,7 @@ function generateRandomFloat(a, b, digits = 1) {
 const formattingNumber = (arr) => {
   const arrayNumbers = [];
   for (let i = 0; i <= arr.length - 1; i++) {
-    const element = (arr[i] >= 10) ? arr[i]:`0${arr[i]}`;
+    const element = (arr[i] >= 10) ? `${arr[i]}`:`0${arr[i]}`;
     arrayNumbers.push(element);
   }
   return arrayNumbers;
@@ -38,6 +38,8 @@ const createNotRepeatNumbers = (min, max) => {
   }
   return randomNumbers;
 };
+const formatNumbers = formattingNumber(createNotRepeatNumbers(1, 10));
+console.log(formatNumbers);
 
 const getRandomArray = (elements) => {
   const arr = [];
@@ -50,6 +52,7 @@ const getRandomArray = (elements) => {
   return arr;
 };
 
+
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
 
@@ -60,7 +63,7 @@ const TYPE_HOUSTING = ['palace', 'flat', 'house', 'bungalow', 'hotel'],
   DESCRIPTION = ['Etiam finibus magna', 'et est aliquam, sed semper libero facilisis', 'Donec lectus lorem', 'rhoncus vitae quam eget', 'vulputate gravida elit', 'Praesent ultricieseros id velit condimentum', 'eu ultrices nisl consequat'],
   PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 
-const formatNumbers = formattingNumber(createNotRepeatNumbers(1, 10));
+
 
 
 const similarAds = Array.from({length: 10}, (_value, index) => {
@@ -89,5 +92,6 @@ const similarAds = Array.from({length: 10}, (_value, index) => {
     },
   };
 });
+
 
 console.log(similarAds);
