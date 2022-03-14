@@ -45,7 +45,7 @@ function createPhoto(array, element) {
 }
 
 
-function formattingAds (element, modifier, property, src = false) {
+function formattingAds(element, modifier, property, src = false) {
   if (!property) {
     return element.querySelector(`.popup__${  modifier}`).classList.add('hidden');
   }
@@ -64,13 +64,12 @@ dataForAds.forEach(({
   formattingAds(adElement, 'text--address', offer.address);
   formattingAds(adElement, 'text--address', offer.address);
   formattingAds(adElement, 'type', typesHousing[(offer.type).toUpperCase()]);
-  formattingAds(adElement, 'text--capacity', offer.rooms&&offer.guests ?  `${offer.rooms} комнаты для ${offer.guests} гостей`: false);
-  formattingAds(adElement, 'text--time', offer.checkin&&offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`:false);
+  formattingAds(adElement, 'text--capacity', offer.rooms && offer.guests ? `${offer.rooms} комнаты для ${offer.guests} гостей` : false);
+  formattingAds(adElement, 'text--time', offer.checkin && offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` : false);
   removeFeaturesElements(adElement, offer.features);
-  formattingAds(adElement, 'description',  offer.description);
+  formattingAds(adElement, 'description', offer.description);
   createPhoto(offer.photos, adElement);
   formattingAds(adElement, 'avatar', author.avatar, true);
   similarAdsFragment.append(adElement);
 });
 mapCanvas.append(similarAdsFragment);
-
