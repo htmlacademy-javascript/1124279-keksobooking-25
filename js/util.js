@@ -52,5 +52,7 @@ const getRandomArray = (elements) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomNumber,generateRandomFloat,formattingNumber,createNotRepeatNumbers,getRandomArray,getRandomArrayElement};
+
+export {isEscapeKey, getRandomNumber,generateRandomFloat,formattingNumber,createNotRepeatNumbers,getRandomArray,getRandomArrayElement};
