@@ -53,7 +53,10 @@ function setPrice () {
   price.min = priceHousting[typeOfHousting.value];
 }
 
-typeOfHousting.addEventListener('change', setPrice);
+typeOfHousting.addEventListener('change', () => {
+  setPrice();
+  price.value = '';
+});
 
 price.addEventListener('keydown', setPrice);
 
