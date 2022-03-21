@@ -8,10 +8,10 @@ const checkout = adForm.querySelector('#timeout');
 
 
 const roomCopacity = {
-  '1' : ['1'],
-  '2' : ['1', '2'],
-  '3' : ['1', '2','3'],
-  '100' : ['0'],
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
 };
 
 const priceHousting = {
@@ -28,7 +28,7 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__error',
 });
 
-function copacityValidation () {
+function copacityValidation() {
   return roomCopacity[roomNumber.value].includes(copacity.value);
 }
 
@@ -42,8 +42,8 @@ function priceValidator() {
   return +price.value >= +price.min;
 }
 
-function priceErrorMessage () {
-  return `Цена за ночь не может привышать ${price.min}`;
+function priceErrorMessage() {
+  return `Цена за ночь не может быть меньше ${price.min}`;
 }
 
 pristine.addValidator(price, priceValidator, priceErrorMessage);
@@ -67,8 +67,3 @@ adForm.addEventListener('submit', (evt) => {
   pristine.validate();
 });
 
-
-// 1 комната — «для 1 гостя»;
-// 2 комнаты — «для 2 гостей» или «для 1 гостя»;
-// 3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»;
-// 100 комнат — «не для гостей».
