@@ -15,7 +15,7 @@ const roomCopacity = {
 };
 
 const priceHousting = {
-  'bungalow': 0,
+  'bungalow': '0',
   'flat': 1000,
   'hotel': 3000,
   'house': 5000,
@@ -39,20 +39,23 @@ copacity.addEventListener('change', () => {
 });
 
 function priceValidator() {
-  return +price.value >= +price.min;
+  return Number(price.value) >= Number(price.min);
 }
 
 function priceErrorMessage() {
-  return `Цена за ночь не может быть меньше ${price.min}`;
+  return `Минимальная цена не может быть меньше: ${price.min}`;
 }
 
 pristine.addValidator(price, priceValidator, priceErrorMessage);
 
-typeOfHousting.addEventListener('change', () => {
+function setPrice () {
   price.placeholder = priceHousting[typeOfHousting.value];
   price.min = priceHousting[typeOfHousting.value];
-  pristine.validate(price);
-});
+}
+
+typeOfHousting.addEventListener('change', setPrice);
+
+price.addEventListener('keydown', setPrice);
 
 checkin.addEventListener('change', (evt) => {
   checkout.value = evt.target.value;
