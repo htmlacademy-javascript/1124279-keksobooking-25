@@ -56,6 +56,7 @@ function setPrice () {
 typeOfHousting.addEventListener('change', () => {
   setPrice();
   price.value = '';
+  pristine.validate(price);
 });
 
 price.addEventListener('keydown', setPrice);
