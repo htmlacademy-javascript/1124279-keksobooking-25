@@ -5,7 +5,7 @@ const typeOfHousting = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const checkin = adForm.querySelector('#timein');
 const checkout = adForm.querySelector('#timeout');
-
+const sliderElement = document.querySelector('.ad-form__slider');
 
 const roomCopacity = {
   '1': ['1'],
@@ -43,20 +43,51 @@ function priceValidator() {
 }
 
 function priceErrorMessage() {
-  return `Минимальная цена не может быть меньше: ${price.min}`;
+  return `Минимальное значение: ${price.min}`;
 }
 
 pristine.addValidator(price, priceValidator, priceErrorMessage);
 
-function setPrice () {
+
+
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: price.max / 5,
+  step: 500,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseInt(value, 10);
+    }
+
+  }
+});
+
+sliderElement.noUiSlider.on('slide', () => {
+  setPrice();
+  price.value = sliderElement.noUiSlider.get();
+  pristine.validate(price);
+});
+
+function setPrice() {
   price.placeholder = priceHousting[typeOfHousting.value];
   price.min = priceHousting[typeOfHousting.value];
 }
 
 typeOfHousting.addEventListener('change', () => {
   setPrice();
-  price.value = '';
   pristine.validate(price);
+
+  sliderElement.noUiSlider.updateOptions({
+    start: price.max / 5,
+  });
 });
 
 price.addEventListener('keydown', setPrice);
@@ -69,8 +100,9 @@ checkout.addEventListener('change', (evt) => {
   checkin.value = evt.target.value;
 });
 
+
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
-

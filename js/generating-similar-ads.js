@@ -1,11 +1,3 @@
-import {
-  getSimillarAds
-} from './data.js';
-
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('.map__canvas');
-const dataForAds = getSimillarAds();
-
 const typesHousing = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
@@ -55,21 +47,5 @@ function formattingAds(element, modifier, property, src = false) {
   element.querySelector(`.popup__${  modifier}`).textContent = property;
 }
 
-dataForAds.forEach(({
-  author,
-  offer
-}) => {
-  const adElement = cardTemplate.cloneNode(true);
-  formattingAds(adElement, 'title', offer.title);
-  formattingAds(adElement, 'text--address', offer.address);
-  formattingAds(adElement, 'text--address', offer.address);
-  formattingAds(adElement, 'type', typesHousing[(offer.type).toUpperCase()]);
-  formattingAds(adElement, 'text--capacity', offer.rooms && offer.guests ? `${offer.rooms} комнаты для ${offer.guests} гостей` : false);
-  formattingAds(adElement, 'text--time', offer.checkin && offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` : false);
-  removeFeaturesElements(adElement, offer.features);
-  formattingAds(adElement, 'description', offer.description);
-  createPhoto(offer.photos, adElement);
-  formattingAds(adElement, 'avatar', author.avatar, true);
-  similarAdsFragment.append(adElement);
-});
-mapCanvas.append(similarAdsFragment);
+
+export {formattingAds, removeFeaturesElements, createPhoto,typesHousing };
