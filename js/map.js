@@ -13,7 +13,6 @@ const simillarAds = getSimillarAds();
 const address = document.querySelector('#address');
 
 
-
 function createCustomPopup (author, offer) {
   const card = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
 
@@ -92,7 +91,7 @@ function createMarker (point) {
   marker
     .addTo(markerGroup)
     .bindPopup(createCustomPopup(author, offer));
-};
+}
 
 
 simillarAds.forEach((point) => {
