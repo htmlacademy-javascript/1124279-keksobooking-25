@@ -6,6 +6,19 @@ const price = adForm.querySelector('#price');
 const checkin = adForm.querySelector('#timein');
 const checkout = adForm.querySelector('#timeout');
 const sliderElement = document.querySelector('.ad-form__slider');
+const submitButton = adForm.querySelector('.ad-form__submit');
+const resetButton = adForm.querySelector('.ad-form__reset');
+
+import {
+  sendData
+} from './api.js';
+import {
+  onSuccess,
+  onError
+} from './system-message.js';
+import { resetPage } from './reset-page.js';
+
+const VALUE_SLIDER = 5;
 
 const roomCopacity = {
   '1': ['1'],
@@ -26,6 +39,11 @@ const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error',
+});
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetPage(adForm);
 });
 
 function copacityValidation() {
@@ -49,14 +67,12 @@ function priceErrorMessage() {
 pristine.addValidator(price, priceValidator, priceErrorMessage);
 
 
-
-
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
     max: 100000,
   },
-  start: price.max / 5,
+  start: price.max / VALUE_SLIDER,
   step: 500,
   connect: 'lower',
   format: {
@@ -86,7 +102,7 @@ typeOfHousting.addEventListener('change', () => {
   pristine.validate(price);
 
   sliderElement.noUiSlider.updateOptions({
-    start: price.max / 5,
+    start: price.max / VALUE_SLIDER,
   });
 });
 
@@ -101,8 +117,30 @@ checkout.addEventListener('change', (evt) => {
 });
 
 
+function blockSubmitButton() {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+}
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+function unBlockSubmitButton() {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+}
+function setFormSubmit() {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {onSuccess(); unBlockSubmitButton(); resetPage(adForm);},
+        () => {onError('Не удается отправить форму, попробуйте еще раз!'); unBlockSubmitButton();},
+        new FormData(evt.target));
+    }
+  });
+}
+
+export {
+  setFormSubmit
+};
