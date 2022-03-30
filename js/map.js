@@ -22,7 +22,7 @@ function createCustomPopup(author, offer) {
   const card = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
   formattingAds(card, 'title', offer.title);
   formattingAds(card, 'text--address', offer.address);
-  formattingAds(card, 'text--price', `${offer.price} ₽`);
+  formattingAds(card, 'text--price', `${offer.price} ₽/ночь`);
   formattingAds(card, 'type', typesHousing[(offer.type).toUpperCase()]);
   formattingAds(card, 'text--capacity', offer.rooms && offer.guests ? `${offer.rooms} комнаты для ${offer.guests} гостей` : false);
   formattingAds(card, 'text--time', offer.checkin && offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` : false);
