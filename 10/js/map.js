@@ -1,12 +1,3 @@
-import { setInactiveForm } from './form-status.js';
-const typesHousing = {
-  FLAT: 'Квартира',
-  BUNGALOW: 'Бунгало',
-  HOUSE: 'Дом',
-  PALACE: 'Дворец',
-  HOTEL: 'Отель'
-};
-
 import {
   setActriveForm
 } from './form-status.js';
@@ -16,6 +7,13 @@ import {
   createPhoto
 } from './util.js';
 
+const typesHousing = {
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+  HOTEL: 'Отель'
+};
 
 const address = document.querySelector('#address');
 
@@ -24,7 +22,7 @@ function createCustomPopup(author, offer) {
   const card = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
   formattingAds(card, 'title', offer.title);
   formattingAds(card, 'text--address', offer.address);
-  formattingAds(card, 'text--address', offer.address);
+  formattingAds(card, 'text--price', `${offer.price} ₽`);
   formattingAds(card, 'type', typesHousing[(offer.type).toUpperCase()]);
   formattingAds(card, 'text--capacity', offer.rooms && offer.guests ? `${offer.rooms} комнаты для ${offer.guests} гостей` : false);
   formattingAds(card, 'text--time', offer.checkin && offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` : false);
@@ -71,7 +69,7 @@ const mainPinmarker = L.marker({
   icon: mainPinIcon,
 });
 
-function closePopup () {
+function closePopup() {
   map.closePopup();
 }
 
