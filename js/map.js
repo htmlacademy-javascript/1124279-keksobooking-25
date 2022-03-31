@@ -2,23 +2,27 @@ import {
   setActriveForm
 } from './form-status.js';
 import {
-  getSimillarAds
-} from './data.js';
-import {
-  formattingAds, removeFeaturesElements, createPhoto, typesHousing
-} from './generating-similar-ads.js';
+  formattingAds,
+  removeFeaturesElements,
+  createPhoto
+} from './util.js';
 
-const simillarAds = getSimillarAds();
+const typesHousing = {
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+  HOTEL: 'Отель'
+};
 
 const address = document.querySelector('#address');
 
 
-function createCustomPopup (author, offer) {
+function createCustomPopup(author, offer) {
   const card = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
-
   formattingAds(card, 'title', offer.title);
   formattingAds(card, 'text--address', offer.address);
-  formattingAds(card, 'text--address', offer.address);
+  formattingAds(card, 'text--price', `${offer.price} ₽/ночь`);
   formattingAds(card, 'type', typesHousing[(offer.type).toUpperCase()]);
   formattingAds(card, 'text--capacity', offer.rooms && offer.guests ? `${offer.rooms} комнаты для ${offer.guests} гостей` : false);
   formattingAds(card, 'text--time', offer.checkin && offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` : false);
@@ -26,9 +30,9 @@ function createCustomPopup (author, offer) {
   formattingAds(card, 'description', offer.description);
   createPhoto(offer.photos, card);
   formattingAds(card, 'avatar', author.avatar, true);
-
   return card;
 }
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -65,7 +69,19 @@ const mainPinmarker = L.marker({
   icon: mainPinIcon,
 });
 
+function closePopup() {
+  map.closePopup();
+}
+
 mainPinmarker.addTo(map);
+
+function resetMainPin() {
+  mainPinmarker.setLatLng({
+    lat: 35.6895,
+    lng: 139.69171,
+  });
+
+}
 
 mainPinmarker.on('moveend', (evt) => {
   const pointLocation = evt.target.getLatLng();
@@ -74,26 +90,28 @@ mainPinmarker.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-function createMarker (point) {
-  const {author, location, offer} = point;
+function createMarker(point) {
+  const {
+    author,
+    location,
+    offer
+  } = point;
 
   const lat = location.lat;
   const lng = location.lng;
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    }
-  );
+  const marker = L.marker({
+    lat,
+    lng,
+  }, {
+    icon,
+  });
   marker
     .addTo(markerGroup)
     .bindPopup(createCustomPopup(author, offer));
 }
 
-
-simillarAds.forEach((point) => {
-  createMarker (point);
-});
+export {
+  createMarker,
+  resetMainPin,
+  closePopup
+};
