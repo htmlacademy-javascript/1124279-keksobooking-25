@@ -5,19 +5,24 @@ const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingGuest = document.querySelector('#housing-guests');
 
+
 function sortHousingType(point) {
-  return point.offer.type === housingType.value ? -1 : 0;
+  if (housingType.value === 'any') {return true;}
+  return point.offer.type === housingType.value;
 }
 
 function sortHousingRooms(point) {
-  return Number(housingRooms.value)  === Number(point.offer.rooms) ? -1 : 0;
+  if (housingRooms.value === 'any') {return true;}
+  return Number(housingRooms.value)  === Number(point.offer.rooms);
 }
 
 function sortHousingGuest(point) {
-  return Number(housingGuest.value)  === Number(point.offer.guests) ? -1 : 0;
+  if (housingGuest.value === 'any') {return true;}
+  return Number(housingGuest.value)  === Number(point.offer.guests);
 }
 
 function sortHousingPrice(point) {
+  if (housingPrice.value === 'any') {return true;}
   if (housingPrice.value === 'low') {
     if (point.offer.price < 10000) {
       return -1;
@@ -37,33 +42,37 @@ function sortHousingPrice(point) {
 }
 
 function setHousingRooms(cb) {
-  housingRooms.addEventListener('change', (evt) => {
-    housingRooms.value = evt.target.value;
+  housingRooms.addEventListener('change', () => {
     cb();
   });
 }
 
 function setCostHousing(cb) {
-  housingPrice.addEventListener('change', (evt) => {
-    housingPrice.value = evt.target.value;
+  housingPrice.addEventListener('change', () => {
     cb();
   });
 }
 function setHousingGuest(cb) {
-  housingGuest.addEventListener('change', (evt) => {
-    housingGuest.value = evt.target.value;
+  housingGuest.addEventListener('change', () => {
     cb();
   });
 }
 
 function setTypeHousing(cb) {
-  housingType.addEventListener('change', (evt) => {
-    housingType.value = evt.target.value;
+  housingType.addEventListener('change', () => {
     cb();
   });
 }
 
+
+function resetFilter () {
+  housingType.value = 'any';
+  housingPrice.value = 'any';
+  housingRooms.value = 'any';
+  housingGuest.value = 'any';
+}
 export {
+  resetFilter,
   setHousingGuest,
   sortHousingGuest,
   setHousingRooms,
