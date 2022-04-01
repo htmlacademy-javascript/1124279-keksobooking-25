@@ -7,6 +7,8 @@ import {
   createPhoto
 } from './util.js';
 
+
+import {sortHousingPrice, sortHousingType, sortHousingRooms, sortHousingGuest} from './filtres.js';
 const typesHousing = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
@@ -90,24 +92,39 @@ mainPinmarker.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-function createMarker(point) {
-  const {
-    author,
-    location,
-    offer
-  } = point;
 
-  const lat = location.lat;
-  const lng = location.lng;
-  const marker = L.marker({
-    lat,
-    lng,
-  }, {
-    icon,
-  });
-  marker
-    .addTo(markerGroup)
-    .bindPopup(createCustomPopup(author, offer));
+function createMarker(points, countAds) {
+  markerGroup.clearLayers();
+  points
+    .slice()
+    .sort((point) => sortHousingType(point))
+    .sort((point) => sortHousingPrice(point))
+    .sort((point) => sortHousingRooms(point))
+    .sort((point) => sortHousingGuest(point))
+    .slice(0, countAds)
+    .forEach((point) => {
+      console.log(`${point.offer.price} - ${point.offer.type} - ${point.offer.rooms} комнат - ${point.offer.guests}`);
+      const {
+        author,
+        location,
+        offer
+      } = point;
+
+      const lat = location.lat;
+      const lng = location.lng;
+      const marker = L.marker({
+        lat,
+        lng,
+      }, {
+        icon,
+      });
+      marker
+        .addTo(markerGroup)
+        .bindPopup(createCustomPopup(author, offer));
+    });
+
+    
+
 }
 
 export {

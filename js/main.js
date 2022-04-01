@@ -8,9 +8,15 @@ import './api.js';
 import {createMarker} from './map.js';
 import {setFormSubmit} from './form.js';
 import {getData} from './api.js';
+import {setTypeHousing, setHousingRooms, setCostHousing, setHousingGuest} from './filtres.js';
+const SIMMILAR_ADS_COUNT = 10;
 
-const SIMMILAR_ADS_COUNT = 15;
 
-
-getData(createMarker, SIMMILAR_ADS_COUNT);
+getData((ads) => {
+  createMarker(ads, SIMMILAR_ADS_COUNT);
+  setTypeHousing(() => createMarker(ads, SIMMILAR_ADS_COUNT));
+  setCostHousing(() => createMarker(ads, SIMMILAR_ADS_COUNT));
+  setHousingRooms(() => createMarker(ads, SIMMILAR_ADS_COUNT));
+  setHousingGuest(() => createMarker(ads, SIMMILAR_ADS_COUNT));
+});
 setFormSubmit();
