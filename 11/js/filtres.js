@@ -3,78 +3,74 @@ const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingGuest = document.querySelector('#housing-guests');
 
+const MIN_COST_VALUE = 10000;
+const MAX_COST_VALUE = 50000;
+
+
 function sortHousingType(point) {
-  return point.offer.type === housingType.value ? -1 : 0;
+  if (housingType.value === 'any') {
+    return true;
+  }
+  return point.offer.type === housingType.value;
 }
 
 function sortHousingRooms(point) {
-  return Number(housingRooms.value)  === Number(point.offer.rooms) ? -1 : 0;
+  if (housingRooms.value === 'any') {
+    return true;
+  }
+  return Number(housingRooms.value) === Number(point.offer.rooms);
 }
 
 function sortHousingGuest(point) {
-  return Number(housingGuest.value)  === Number(point.offer.guests) ? -1 : 0;
+  if (housingGuest.value === 'any') {
+    return true;
+  }
+  return Number(housingGuest.value) === Number(point.offer.guests);
 }
 
 function sortHousingPrice(point) {
   switch (housingPrice.value) {
+    case 'any':
+      return true;
     case 'low':
-      if (point.offer.price > 10000) {
+      if (point.offer.price < MIN_COST_VALUE) {
         return -1;
       }
-
       break;
-
     case 'middle':
-      if (point.offer.price >= 10000 && point.offer.price <= 50000) {
+      if (point.offer.price >= MIN_COST_VALUE && point.offer.price <= MAX_COST_VALUE) {
         return -1;
       }
-
       break;
-
     case 'high':
-      if (point.offer.price >= 50000) {
+      if (point.offer.price >= MAX_COST_VALUE) {
         return -1;
       }
-
       break;
   }
-  return true;
 }
 
-function setHousingRooms(cb) {
-  housingRooms.addEventListener('change', (evt) => {
-    housingRooms.value = evt.target.value;
+function setFilterChange(item, cb) {
+  item.addEventListener('change', () => {
     cb();
   });
 }
 
-function setCostHousing(cb) {
-  housingPrice.addEventListener('change', (evt) => {
-    housingPrice.value = evt.target.value;
-    cb();
-  });
-}
-function setHousingGuest(cb) {
-  housingGuest.addEventListener('change', (evt) => {
-    housingGuest.value = evt.target.value;
-    cb();
-  });
-}
 
-function setTypeHousing(cb) {
-  housingType.addEventListener('change', (evt) => {
-    housingType.value = evt.target.value;
-    cb();
-  });
-}
 
+function resetFilter() {
+  housingType.value = 'any';
+  housingPrice.value = 'any';
+  housingRooms.value = 'any';
+  housingGuest.value = 'any';
+}
 export {
-  setHousingGuest,
   sortHousingGuest,
-  setHousingRooms,
+  resetFilter,
+  setFilterChange,
   sortHousingRooms,
   sortHousingPrice,
   sortHousingType,
-  setTypeHousing,
-  setCostHousing
+
+
 };

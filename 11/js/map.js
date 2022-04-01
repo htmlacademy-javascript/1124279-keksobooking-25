@@ -8,7 +8,12 @@ import {
 } from './util.js';
 
 
-import {sortHousingPrice, sortHousingType, sortHousingRooms, sortHousingGuest} from './filtres.js';
+import {
+  sortHousingPrice,
+  sortHousingType,
+  sortHousingRooms,
+  sortHousingGuest
+} from './filtres.js';
 const typesHousing = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
@@ -97,10 +102,10 @@ function createMarker(points, countAds) {
   markerGroup.clearLayers();
   points
     .slice()
-    .sort((point) => sortHousingType(point))
-    .sort((point) => sortHousingPrice(point))
-    .sort((point) => sortHousingRooms(point))
-    .sort((point) => sortHousingGuest(point))
+    .filter(sortHousingType)
+    .filter(sortHousingPrice)
+    .filter(sortHousingRooms)
+    .filter(sortHousingGuest)
     .slice(0, countAds)
     .forEach((point) => {
       console.log(`${point.offer.price} - ${point.offer.type} - ${point.offer.rooms} комнат - ${point.offer.guests}`);
@@ -123,7 +128,7 @@ function createMarker(points, countAds) {
         .bindPopup(createCustomPopup(author, offer));
     });
 
-    
+
 
 }
 
