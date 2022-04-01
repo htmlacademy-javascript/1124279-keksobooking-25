@@ -1,3 +1,5 @@
+
+
 const housingType = document.querySelector('#housing-type');
 const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
@@ -16,29 +18,22 @@ function sortHousingGuest(point) {
 }
 
 function sortHousingPrice(point) {
-  switch (housingPrice.value) {
-    case 'low':
-      if (point.offer.price > 10000) {
-        return -1;
-      }
-
-      break;
-
-    case 'middle':
-      if (point.offer.price >= 10000 && point.offer.price <= 50000) {
-        return -1;
-      }
-
-      break;
-
-    case 'high':
-      if (point.offer.price >= 50000) {
-        return -1;
-      }
-
-      break;
+  if (housingPrice.value === 'low') {
+    if (point.offer.price < 10000) {
+      return -1;
+    }
   }
-  return true;
+  if (housingPrice.value === 'middle') {
+    if (point.offer.price >= 10000 && point.offer.price <= 50000) {
+      return -1;
+    }
+
+  }
+  if (housingPrice.value === 'high') {
+    if (point.offer.price >= 50000) {
+      return -1;
+    }
+  }
 }
 
 function setHousingRooms(cb) {
