@@ -9,7 +9,7 @@ import {createMarker} from './map.js';
 import {setFormSubmit} from './form.js';
 import {getData} from './api.js';
 import {setTypeHousing, setHousingRooms, setCostHousing, setHousingGuest} from './filtres.js';
-const SIMMILAR_ADS_COUNT = 34;
+const SIMMILAR_ADS_COUNT = 10;
 
 
 getData((ads) => {

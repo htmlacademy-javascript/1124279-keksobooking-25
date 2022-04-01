@@ -103,11 +103,10 @@ function createMarker(points, countAds) {
   points
     .slice()
     .sort((point) => sortHousingType(point))
-    .slice(0, countAds)
     .sort((point) => sortHousingPrice(point))
     .sort((point) => sortHousingRooms(point))
     .sort((point) => sortHousingGuest(point))
-    
+    .slice(0, countAds)
     .forEach((point) => {
       console.log(`${point.offer.price} - ${point.offer.type} - ${point.offer.rooms} комнат - ${point.offer.guests}`);
       const {
