@@ -25,7 +25,6 @@ function sortFeatures(point) {
   const values = grabCheckboxValues();
   const result = (arr, target) => target.every((value) => arr.includes(value));
   const isMatch = result(adFeatures, values);
-  
   return isMatch;
 }
 
@@ -108,6 +107,4 @@ export {
   sortHousingRooms,
   sortHousingPrice,
   sortHousingType,
-
-
 };

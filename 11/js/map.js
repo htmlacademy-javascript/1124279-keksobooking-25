@@ -15,7 +15,8 @@ import {
   sortHousingGuest,
   sortFeatures
 } from './filtres.js';
-const typesHousing = {
+
+const TYPES_OF_HOUSING = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
   HOUSE: 'Дом',
@@ -24,6 +25,17 @@ const typesHousing = {
 };
 
 const SIMMILAR_ADS_COUNT = 10;
+const CITY_CENTER = {
+  lat: 35.6895,
+  lng: 139.69171,
+};
+const MAP_SIZE_VIEW = 12;
+const MAIN_ICON_SIZE = 52;
+const CENTER_MAIN_ICON = 26;
+
+const ICON_SIZE = 40;
+const CENTER_ICON = 20;
+
 const address = document.querySelector('#address');
 
 
@@ -32,7 +44,7 @@ function createCustomPopup(author, offer) {
   formattingAds(card, 'title', offer.title);
   formattingAds(card, 'text--address', offer.address);
   formattingAds(card, 'text--price', `${offer.price} ₽/ночь`);
-  formattingAds(card, 'type', typesHousing[(offer.type).toUpperCase()]);
+  formattingAds(card, 'type', TYPES_OF_HOUSING[(offer.type).toUpperCase()]);
   formattingAds(card, 'text--capacity', offer.rooms && offer.guests ? `${offer.rooms} комнаты для ${offer.guests} гостей` : false);
   formattingAds(card, 'text--time', offer.checkin && offer.checkout ? `Заезд после ${offer.checkin}, выезд до ${offer.checkout}` : false);
   removeFeaturesElements(card, offer.features);
@@ -46,9 +58,9 @@ function createCustomPopup(author, offer) {
 const map = L.map('map-canvas').on('load', () => {
   setActiveForm();
 }).setView({
-  lat: 35.6895,
-  lng: 139.69171,
-}, 12);
+  lat: CITY_CENTER.lat,
+  lng: CITY_CENTER.lng,
+}, MAP_SIZE_VIEW );
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -58,19 +70,19 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [MAIN_ICON_SIZE, MAIN_ICON_SIZE],
+  iconAnchor: [CENTER_MAIN_ICON, MAIN_ICON_SIZE],
 });
 const icon = L.icon({
   iconUrl: 'img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [ICON_SIZE, ICON_SIZE],
+  iconAnchor: [CENTER_ICON, ICON_SIZE],
 });
 
 
 const mainPinmarker = L.marker({
-  lat: 35.6895,
-  lng: 139.69171,
+  lat: CITY_CENTER.lat,
+  lng: CITY_CENTER.lng,
 }, {
   draggable: true,
   icon: mainPinIcon,
@@ -84,14 +96,14 @@ mainPinmarker.addTo(map);
 
 function resetMainPin() {
   mainPinmarker.setLatLng({
-    lat: 35.6895,
-    lng: 139.69171,
+    lat: CITY_CENTER.lat,
+    lng: CITY_CENTER.lng,
   });
 
   map.setView({
-    lat: 35.6895,
-    lng: 139.69171,
-  }, 12);
+    lat: CITY_CENTER.lat,
+    lng: CITY_CENTER.lng,
+  }, MAP_SIZE_VIEW );
 }
 
 mainPinmarker.on('moveend', (evt) => {
@@ -112,7 +124,7 @@ function createMarker(points) {
     .filter(sortHousingPrice)
     .filter(sortHousingRooms)
     .filter(sortHousingGuest)
-    .filter((ad) => sortFeatures(ad))
+    .filter(sortFeatures)
     .slice(0, SIMMILAR_ADS_COUNT)
     .forEach((point) => {
       const {
