@@ -4,7 +4,7 @@ const housingRooms = document.querySelector('#housing-rooms');
 const housingGuest = document.querySelector('#housing-guests');
 const filter = document.querySelector('.map__filters');
 const housingFilters = filter.querySelectorAll('select');
-const featuresCheckboxes = document.querySelectorAll('input[type=checkbox]');
+const featuresCheckboxes = filter.querySelectorAll('input[type=checkbox]');
 
 const MIN_COST_VALUE = 10000;
 const MAX_COST_VALUE = 50000;
@@ -21,13 +21,12 @@ function grabCheckboxValues() {
 }
 
 function sortFeatures(point) {
-  const pointFeatures = point.offer.features || [];
+  const adFeatures = point.offer.features || [];
   const values = grabCheckboxValues();
   const result = (arr, target) => target.every((value) => arr.includes(value));
-  const isMatch = result(pointFeatures, values);
-  if (isMatch) {
-    return true;
-  }
+  const isMatch = result(adFeatures, values);
+  
+  return isMatch;
 }
 
 
