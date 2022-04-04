@@ -2,10 +2,41 @@ const housingType = document.querySelector('#housing-type');
 const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingGuest = document.querySelector('#housing-guests');
+const filter = document.querySelector('.map__filters');
+const housingFilters = filter.querySelectorAll('select');
+const featuresCheckboxes = document.querySelectorAll('input[type=checkbox]');
 
 const MIN_COST_VALUE = 10000;
 const MAX_COST_VALUE = 50000;
 
+
+function grabCheckboxValues() {
+  const checkboxValues = [];
+  featuresCheckboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkboxValues.push(checkbox.value);
+    }
+  });
+  return checkboxValues;
+}
+
+function sortFeatures(point) {
+  const pointFeatures = point.offer.features || [];
+  const values = grabCheckboxValues();
+  const result = (arr, target) => target.every((value) => arr.includes(value));
+  const isMatch = result(pointFeatures, values);
+  if (isMatch) {
+    return true;
+  }
+}
+
+
+function setCheckboxChange(cb) {
+  featuresCheckboxes.forEach((box) => {
+    box.checked = false;
+    box.addEventListener('change', () => cb());
+  });
+}
 
 function sortHousingType(point) {
   if (housingType.value === 'any') {
@@ -27,6 +58,7 @@ function sortHousingGuest(point) {
   }
   return Number(housingGuest.value) === Number(point.offer.guests);
 }
+
 
 function sortHousingPrice(point) {
   switch (housingPrice.value) {
@@ -50,21 +82,27 @@ function sortHousingPrice(point) {
   }
 }
 
-function setFilterChange(item, cb) {
-  item.addEventListener('change', () => {
-    cb();
+function setFilterChange(cb) {
+  housingFilters.forEach((element) => {
+    element.addEventListener('input', () => {
+      cb();
+    });
   });
 }
-
-
 
 function resetFilter() {
   housingType.value = 'any';
   housingPrice.value = 'any';
   housingRooms.value = 'any';
   housingGuest.value = 'any';
+
+  featuresCheckboxes.forEach((checkbox) => {checkbox.checked = false;});
 }
+
+
 export {
+  setCheckboxChange,
+  sortFeatures,
   sortHousingGuest,
   resetFilter,
   setFilterChange,

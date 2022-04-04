@@ -1,5 +1,6 @@
 import {
-  setActriveForm
+  setActiveForm,
+  setActiveFilter
 } from './form-status.js';
 import {
   formattingAds,
@@ -7,12 +8,12 @@ import {
   createPhoto
 } from './util.js';
 
-
 import {
   sortHousingPrice,
   sortHousingType,
   sortHousingRooms,
-  sortHousingGuest
+  sortHousingGuest,
+  sortFeatures
 } from './filtres.js';
 const typesHousing = {
   FLAT: 'Квартира',
@@ -22,6 +23,7 @@ const typesHousing = {
   HOTEL: 'Отель'
 };
 
+const SIMMILAR_ADS_COUNT = 10;
 const address = document.querySelector('#address');
 
 
@@ -41,14 +43,12 @@ function createCustomPopup(author, offer) {
 }
 
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    setActriveForm();
-  })
-  .setView({
-    lat: 35.6895,
-    lng: 139.69171,
-  }, 12);
+const map = L.map('map-canvas').on('load', () => {
+  setActiveForm();
+}).setView({
+  lat: 35.6895,
+  lng: 139.69171,
+}, 12);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -88,6 +88,10 @@ function resetMainPin() {
     lng: 139.69171,
   });
 
+  map.setView({
+    lat: 35.6895,
+    lng: 139.69171,
+  }, 12);
 }
 
 mainPinmarker.on('moveend', (evt) => {
@@ -98,7 +102,9 @@ mainPinmarker.on('moveend', (evt) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 
-function createMarker(points, countAds) {
+function createMarker(points) {
+  setActiveFilter();
+
   markerGroup.clearLayers();
   points
     .slice()
@@ -106,15 +112,14 @@ function createMarker(points, countAds) {
     .filter(sortHousingPrice)
     .filter(sortHousingRooms)
     .filter(sortHousingGuest)
-    .slice(0, countAds)
+    .filter((ad) => sortFeatures(ad))
+    .slice(0, SIMMILAR_ADS_COUNT)
     .forEach((point) => {
-      console.log(`${point.offer.price} - ${point.offer.type} - ${point.offer.rooms} комнат - ${point.offer.guests}`);
       const {
         author,
         location,
         offer
       } = point;
-
       const lat = location.lat;
       const lng = location.lng;
       const marker = L.marker({
@@ -127,13 +132,16 @@ function createMarker(points, countAds) {
         .addTo(markerGroup)
         .bindPopup(createCustomPopup(author, offer));
     });
+}
 
-
-
+function removePins() {
+  markerGroup.clearLayers();
 }
 
 export {
   createMarker,
   resetMainPin,
-  closePopup
+  closePopup,
+  removePins
+
 };
