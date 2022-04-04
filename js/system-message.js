@@ -14,7 +14,7 @@ function onKeyDownEscSuccess(evt) {
   }
 }
 
-function closeModalSuccess () {
+function closeModalSuccess() {
   successMessage.remove();
   document.removeEventListener('keydown', onKeyDownEscSuccess);
   document.removeEventListener('click', closeModalSuccess);
@@ -32,7 +32,7 @@ function onKeyDownEscError(evt) {
   }
 }
 
-function closeModalError () {
+function closeModalError() {
   errorMessage.remove();
   document.removeEventListener('keydown', onKeyDownEscError);
   document.removeEventListener('click', closeModalError);
