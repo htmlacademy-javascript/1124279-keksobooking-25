@@ -18,7 +18,6 @@ import {
 } from './system-message.js';
 import { resetPage } from './reset-page.js';
 
-const VALUE_SLIDER = 5;
 
 const roomCopacity = {
   '1': ['1'],
@@ -34,6 +33,11 @@ const priceHousting = {
   'house': 5000,
   'palace': 10000,
 };
+
+const SLIDER_COST_STEP = 500;
+const SLIDER_MIN_RANGE = 0;
+const SLIDER_MAX_RANGE = 100000;
+const VALUE_SLIDER = 5;
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -69,11 +73,11 @@ pristine.addValidator(price, priceValidator, priceErrorMessage);
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: 0,
-    max: 100000,
+    min: SLIDER_MIN_RANGE,
+    max: SLIDER_MAX_RANGE,
   },
   start: price.max / VALUE_SLIDER,
-  step: 500,
+  step: SLIDER_COST_STEP,
   connect: 'lower',
   format: {
     to: function (value) {
@@ -130,7 +134,6 @@ function setFormSubmit() {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
-
     if (isValid) {
       blockSubmitButton();
       sendData(
