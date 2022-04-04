@@ -23,9 +23,9 @@ function grabCheckboxValues() {
 function sortFeatures(point) {
   const adFeatures = point.offer.features || [];
   const values = grabCheckboxValues();
-  const result = (arr, target) => target.every((value) => arr.includes(value));
-  const isMatch = result(adFeatures, values);
-  return isMatch;
+  return values.every((value) => adFeatures.includes(value));
+ 
+
 }
 
 
