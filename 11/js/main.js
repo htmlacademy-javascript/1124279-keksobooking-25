@@ -8,19 +8,13 @@ import './api.js';
 import {createMarker} from './map.js';
 import {setFormSubmit} from './form.js';
 import {getData} from './api.js';
-import {setFilterChange} from './filtres.js';
-const SIMMILAR_ADS_COUNT = 10;
-
-const housingType = document.querySelector('#housing-type');
-const housingPrice = document.querySelector('#housing-price');
-const housingRooms = document.querySelector('#housing-rooms');
-const housingGuest = document.querySelector('#housing-guests');
+import {setFilterChange,setCheckboxChange} from './filtres.js';
+// import {setInactiveForm} from './form-status.js';
 
 getData((ads) => {
-  createMarker(ads, SIMMILAR_ADS_COUNT);
-  setFilterChange(housingGuest,() => createMarker(ads, SIMMILAR_ADS_COUNT));
-  setFilterChange(housingRooms, () => createMarker(ads, SIMMILAR_ADS_COUNT));
-  setFilterChange(housingPrice, () => createMarker(ads, SIMMILAR_ADS_COUNT));
-  setFilterChange(housingType, () => createMarker(ads, SIMMILAR_ADS_COUNT));
+  createMarker(ads);
+  setFilterChange(() => createMarker(ads));
+  setCheckboxChange(() => createMarker(ads));
 });
+
 setFormSubmit();
