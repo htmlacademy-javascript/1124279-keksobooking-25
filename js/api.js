@@ -2,13 +2,11 @@ import {
   showErrorLoad
 } from './system-message.js';
 
-function getData(functionCreated, count) {
+function getData(renderPins) {
   fetch('https://25.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((ads) => {
-      ads.slice(0, count).forEach((ad) => {
-        functionCreated(ad);
-      });
+      renderPins(ads);
     })
     .catch(() => showErrorLoad('Ошибка загрузки данных, обновите страницу!'));
 }

@@ -94,5 +94,26 @@ function formattingAds(element, modifier, property, src = false) {
   element.querySelector(`.popup__${  modifier}`).textContent = property;
 }
 
+function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
 
-export {removeFeaturesElements, createPhoto, formattingAds ,isEscapeKey, getRandomNumber,generateRandomFloat,formattingNumber,createNotRepeatNumbers,getRandomArray,getRandomArrayElement};
+  return (...rest) => {
+
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+  };
+}
+export {
+  debounce,
+  removeFeaturesElements,
+  createPhoto,
+  formattingAds,
+  isEscapeKey,
+  getRandomNumber,
+  generateRandomFloat,
+  formattingNumber,
+  createNotRepeatNumbers,
+  getRandomArray,
+  getRandomArrayElement
+};

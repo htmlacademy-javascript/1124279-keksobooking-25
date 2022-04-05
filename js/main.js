@@ -8,9 +8,16 @@ import './api.js';
 import {createMarker} from './map.js';
 import {setFormSubmit} from './form.js';
 import {getData} from './api.js';
+import {setFilterChange,setCheckboxChange} from './filtres.js';
+// import {setInactiveForm} from './form-status.js';
+import {debounce} from './util.js';
 
-const SIMMILAR_ADS_COUNT = 15;
+const RENDER_DELAY = 500;
 
+getData((ads) => {
+  createMarker(ads);
+  setFilterChange(debounce(() => createMarker(ads), RENDER_DELAY));
+  setCheckboxChange(debounce(() => createMarker(ads), RENDER_DELAY));
+});
 
-getData(createMarker, SIMMILAR_ADS_COUNT);
 setFormSubmit();
