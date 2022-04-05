@@ -4,6 +4,7 @@ import './form-status.js';
 import './form.js';
 import './map.js';
 import './api.js';
+import './images.js';
 
 import {createMarker} from './map.js';
 import {setFormSubmit} from './form.js';

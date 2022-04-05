@@ -9,7 +9,7 @@ import {
 import {resetFilter} from './filtres.js';
 import { getData } from './api.js';
 import { createMarker } from './map.js';
-
+import {resetImage} from './images.js';
 
 function resetPage(form) {
   form.reset();
@@ -23,8 +23,7 @@ function resetPage(form) {
 
   });
 
- 
-
+  resetImage();
 
 }
 
