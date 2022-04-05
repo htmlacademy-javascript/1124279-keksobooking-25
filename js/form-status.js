@@ -15,19 +15,6 @@ function setAddressValue() {
   address.value = `${LOCATION_CENTER_CITY.lat}  ${LOCATION_CENTER_CITY.lng}`;
 }
 
-
-function setInactiveForm() {
-  // adForm.classList.add('ad-form--disabled');
-  // mapFilter.classList.add('map__filters--disabled');
-  // adFormFieldsets.forEach((element) => {
-  //   element.disabled = true;
-  // });
-  // mapFiltersSelect.forEach((element) => {
-  //   element.disabled = true;
-  // });
-}
-
-
 function setActiveForm() {
   adForm.classList.remove('ad-form--disabled');
   adFormFieldsets.forEach((element) => {
@@ -45,7 +32,6 @@ function setActiveFilter () {
 
 export {
   setActiveFilter,
-  setInactiveForm,
   setActiveForm,
   setAddressValue
 };
