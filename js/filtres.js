@@ -24,15 +24,13 @@ function sortFeatures(point) {
   const adFeatures = point.offer.features || [];
   const values = grabCheckboxValues();
   return values.every((value) => adFeatures.includes(value));
- 
-
 }
 
 
 function setCheckboxChange(cb) {
   featuresCheckboxes.forEach((box) => {
     box.checked = false;
-    box.addEventListener('change', () => cb());
+    box.addEventListener('change', cb);
   });
 }
 
