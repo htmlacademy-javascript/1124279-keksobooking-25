@@ -10,7 +10,6 @@ import {createMarker} from './map.js';
 import {setFormSubmit} from './form.js';
 import {getData} from './api.js';
 import {setFilterChange,setCheckboxChange} from './filtres.js';
-// import {setInactiveForm} from './form-status.js';
 import {debounce} from './util.js';
 
 const RENDER_DELAY = 500;
