@@ -1,6 +1,6 @@
 const adForm = document.querySelector('.ad-form');
 const roomNumber = adForm.querySelector('#room_number');
-const copacity = adForm.querySelector('#capacity');
+const guestCount = adForm.querySelector('#capacity');
 const typeOfHousting = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 const checkin = adForm.querySelector('#timein');
@@ -27,7 +27,7 @@ const roomCopacity = {
 };
 
 const priceHousting = {
-  'bungalow': '0',
+  'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
   'house': 5000,
@@ -35,9 +35,8 @@ const priceHousting = {
 };
 
 const SLIDER_COST_STEP = 500;
-const SLIDER_MIN_RANGE = 0;
-const SLIDER_MAX_RANGE = 100000;
-const VALUE_SLIDER = 5;
+const DEFAULT_PLACEHOLDER = 1000;
+const PRICE_MIN = 0;
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -50,14 +49,22 @@ resetButton.addEventListener('click', (evt) => {
   resetPage(adForm);
 });
 
-function copacityValidation() {
-  return roomCopacity[roomNumber.value].includes(copacity.value);
+function guestCountValidation() {
+  return roomCopacity[roomNumber.value].includes(guestCount.value);
 }
 
-pristine.addValidator(roomNumber, copacityValidation, 'Не допустимый вариант выбора комнаты');
+function showErrorCountGuest () {
+  return  'Недопустимое количество гостей';
+}
 
-copacity.addEventListener('change', () => {
-  pristine.validate(roomNumber);
+pristine.addValidator(guestCount, guestCountValidation, showErrorCountGuest);
+
+guestCount.addEventListener('change', () => {
+  pristine.validate(guestCount);
+});
+
+roomNumber.addEventListener('change', () => {
+  pristine.validate(guestCount);
 });
 
 function priceValidator() {
@@ -73,10 +80,10 @@ pristine.addValidator(price, priceValidator, priceErrorMessage);
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: SLIDER_MIN_RANGE,
-    max: SLIDER_MAX_RANGE,
+    min: Number(price.min),
+    max: Number(price.max),
   },
-  start: price.max / VALUE_SLIDER,
+  start: Number(price.min),
   step: SLIDER_COST_STEP,
   connect: 'lower',
   format: {
@@ -97,6 +104,7 @@ sliderElement.noUiSlider.on('slide', () => {
 });
 
 function setPrice() {
+  price.value = '';
   price.placeholder = priceHousting[typeOfHousting.value];
   price.min = priceHousting[typeOfHousting.value];
 }
@@ -104,9 +112,8 @@ function setPrice() {
 typeOfHousting.addEventListener('change', () => {
   setPrice();
   pristine.validate(price);
-
   sliderElement.noUiSlider.updateOptions({
-    start: price.max / VALUE_SLIDER,
+    start: Number(price.min),
   });
 });
 
@@ -120,6 +127,14 @@ checkout.addEventListener('change', (evt) => {
   checkin.value = evt.target.value;
 });
 
+
+function resetValueForm () {
+  price.placeholder = DEFAULT_PLACEHOLDER;
+  price.min = PRICE_MIN;
+  sliderElement.noUiSlider.updateOptions({
+    start: Number(price.min),
+  });
+}
 
 function blockSubmitButton() {
   submitButton.disabled = true;
@@ -135,6 +150,7 @@ function setFormSubmit() {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
+      resetValueForm ();
       blockSubmitButton();
       sendData(
         () => {onSuccess(); unBlockSubmitButton(); resetPage(adForm);},
