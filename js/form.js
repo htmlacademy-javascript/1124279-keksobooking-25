@@ -161,5 +161,6 @@ function setFormSubmit() {
 }
 
 export {
+  resetValueForm,
   setFormSubmit
 };
